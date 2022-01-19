@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 group = "net.codinux.kotlin"
@@ -42,7 +43,12 @@ kotlin {
 
     
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.2")
+            }
+        }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -53,8 +59,6 @@ kotlin {
             dependencies {
                 // TODO: try to get rid of / use Kotlin MPP logger
                 implementation("org.slf4j:slf4j-api:1.7.28")
-                // TODO: use Kotlin Serialization
-                implementation("net.dankito.utils:java-utils:1.0.18")
             }
         }
         val jvmTest by getting

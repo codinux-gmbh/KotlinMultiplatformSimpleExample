@@ -1,6 +1,9 @@
 package net.codinux.kotlin.example.domain.model
 
+import kotlinx.serialization.Serializable
 
+
+@Serializable
 open class BankInfo(
     open var name: String,
     open val bankCode: String,

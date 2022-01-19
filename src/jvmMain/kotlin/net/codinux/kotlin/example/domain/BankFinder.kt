@@ -1,10 +1,12 @@
 package net.codinux.kotlin.example.domain
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import net.codinux.kotlin.example.domain.model.BankInfo
-import net.dankito.utils.serialization.JacksonJsonSerializer
 import org.slf4j.LoggerFactory
 
-
+@Serializable
 class BankFinder {
 
   companion object {
@@ -64,22 +66,12 @@ class BankFinder {
 
   private fun loadBankList(): List<BankInfo> {
     try {
-      val bankListString = readBankListFile()
-
-      JacksonJsonSerializer().deserializeList(bankListString, BankInfo::class.java)?.let {
-        return it
-      }
+      return Json.decodeFromStream<List<BankInfo>>(BankFinder::class.java.classLoader.getResourceAsStream(BankListFileName))
     } catch (e: Exception) {
       log.error("Could not load bank list", e)
     }
 
     return listOf()
-  }
-
-  private fun readBankListFile(): String {
-    val inputStream = BankFinder::class.java.classLoader.getResourceAsStream(BankListFileName)
-
-    return inputStream.bufferedReader().readText()
   }
 
 }
