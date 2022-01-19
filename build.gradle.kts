@@ -48,10 +48,20 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting
+
+        val jvmMain by getting {
+            dependencies {
+                // TODO: try to get rid of / use Kotlin MPP logger
+                implementation("org.slf4j:slf4j-api:1.7.28")
+                // TODO: use Kotlin Serialization
+                implementation("net.dankito.utils:java-utils:1.0.18")
+            }
+        }
         val jvmTest by getting
+
         val jsMain by getting
         val jsTest by getting
+
         val nativeMain by getting
         val nativeTest by getting
     }
