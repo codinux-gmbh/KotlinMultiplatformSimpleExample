@@ -66,7 +66,7 @@ class BankFinder {
 
   private fun loadBankList(): List<BankInfo> {
     try {
-      return Json.decodeFromStream<List<BankInfo>>(BankFinder::class.java.classLoader.getResourceAsStream(BankListFileName))
+      return Json.decodeFromStream(BankFinder::class.java.classLoader.getResourceAsStream(BankListFileName))
     } catch (e: Exception) {
       log.error("Could not load bank list", e)
     }

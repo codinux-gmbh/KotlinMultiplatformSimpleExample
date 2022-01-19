@@ -9,7 +9,11 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven { setUrl("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
+
+
+val ktorVersion = "2.0.0-beta-1"
 
 
 kotlin {
@@ -57,11 +61,22 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-server-core:$ktorVersion")
+                implementation("io.ktor:ktor-server-netty:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-server-cors:$ktorVersion")
+
                 // TODO: try to get rid of / use Kotlin MPP logger
                 implementation("org.slf4j:slf4j-api:1.7.28")
             }
         }
-        val jvmTest by getting
+
+        val jvmTest by getting {
+            dependencies {
+                implementation("io.ktor:ktor-server-tests:$ktorVersion")
+            }
+        }
 
         val jsMain by getting
         val jsTest by getting
