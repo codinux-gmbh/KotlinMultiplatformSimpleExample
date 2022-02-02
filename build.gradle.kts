@@ -50,6 +50,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.2")
+
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
             }
         }
 
@@ -69,6 +73,8 @@ kotlin {
 
                 // TODO: try to get rid of / use Kotlin MPP logger
                 implementation("org.slf4j:slf4j-api:1.7.28")
+
+                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
             }
         }
 
@@ -78,10 +84,21 @@ kotlin {
             }
         }
 
-        val jsMain by getting
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:$ktorVersion")
+            }
+        }
+
         val jsTest by getting
 
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                // requires that cURL is installed on your system
+                implementation("io.ktor:ktor-client-curl:$ktorVersion")
+            }
+        }
+
         val nativeTest by getting
     }
 

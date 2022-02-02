@@ -5,6 +5,8 @@ import kotlin.test.*
 import io.ktor.server.testing.*
 import net.codinux.kotlin.example.configureHTTP
 import net.codinux.kotlin.example.configureSerialization
+import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderFindBanksQueryQueryParameter
+import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderPath
 
 class BankFinderApiTest {
 

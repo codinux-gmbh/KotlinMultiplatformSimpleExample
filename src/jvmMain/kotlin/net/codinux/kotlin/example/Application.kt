@@ -7,9 +7,10 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.*
 import net.codinux.kotlin.example.api.configureBankFinderRouting
+import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig
 
 fun main() {
-    embeddedServer(Netty, port = 8089, host = "0.0.0.0") {
+    embeddedServer(Netty, port = BankFinderUrlConfig.Port, host = "0.0.0.0") {
         configureHTTP()
         configureSerialization()
         configureBankFinderRouting()

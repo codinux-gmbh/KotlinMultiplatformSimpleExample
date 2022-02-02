@@ -4,10 +4,8 @@ import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import net.codinux.kotlin.example.domain.BankFinder
-
-const val BankFinderPath = "/bankfinder"
-
-const val BankFinderFindBanksQueryQueryParameter = "query"
+import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderFindBanksQueryQueryParameter
+import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderPath
 
 
 fun Application.configureBankFinderRouting() {
