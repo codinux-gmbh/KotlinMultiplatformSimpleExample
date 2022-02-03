@@ -68,7 +68,7 @@ kotlin {
                 implementation("io.ktor:ktor-server-cors:$ktorVersion")
 
                 // TODO: try to get rid of / use Kotlin MPP logger
-                implementation("org.slf4j:slf4j-api:1.7.28")
+                implementation("org.slf4j:slf4j-api:1.7.32")
                 implementation("ch.qos.logback:logback-classic:1.2.10")
 
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")

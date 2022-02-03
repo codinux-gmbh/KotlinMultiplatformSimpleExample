@@ -9,7 +9,10 @@ import kotlinx.serialization.decodeFromString
 import net.codinux.kotlin.example.domain.model.BankInfo
 
 
-class BankFinderClient {
+class BankFinderClient(
+  val host: String = BankFinderUrlConfig.Host,
+  val port: Int = BankFinderUrlConfig.Port
+) {
 
   private val client = HttpClient {
     install(ContentNegotiation) {
@@ -19,7 +22,7 @@ class BankFinderClient {
 
 
   suspend fun findBanks(query: String): List<BankInfo> {
-    val response = client.get("http://${BankFinderUrlConfig.Host}:${BankFinderUrlConfig.Port}${BankFinderUrlConfig.BankFinderPath}") {
+    val response = client.get("http://$host:$port${BankFinderUrlConfig.BankFinderPath}") {
       parameter(BankFinderUrlConfig.BankFinderFindBanksQueryQueryParameter, query)
     }
 
