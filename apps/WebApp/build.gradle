@@ -1,0 +1,37 @@
+plugins {
+    id 'org.jetbrains.kotlin.js'
+}
+
+
+dependencies {
+    implementation project(":common")
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+
+    implementation 'org.jetbrains.kotlin-wrappers:kotlin-react:17.0.2-pre.206-kotlin-1.5.10'
+    implementation 'org.jetbrains.kotlin-wrappers:kotlin-react-dom:17.0.2-pre.206-kotlin-1.5.10'
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test-js"
+}
+
+kotlin {
+    js(IR) {
+        browser {
+            webpackTask {
+                cssSupport.enabled = true
+            }
+
+            runTask {
+                cssSupport.enabled = true
+            }
+
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                    webpackConfig.cssSupport.enabled = true
+                }
+            }
+        }
+        binaries.executable()
+    }
+}

@@ -8,6 +8,7 @@
 **/build
 **/out
 **/target
+**/kotlin-js-store
 
 .gradle
 
