@@ -1,7 +1,7 @@
 package net.codinux.kotlin.mpp.android.adapter
 
-import android.net.Uri
 import android.view.View
+import com.squareup.picasso.Picasso
 import net.codinux.kotlin.example.favicon.model.Favicon
 import net.codinux.kotlin.mpp.android.R
 import net.codinux.kotlin.mpp.android.viewholder.FaviconViewHolder
@@ -20,7 +20,7 @@ class FaviconsListRecyclerAdapter : ListRecyclerAdapter<Favicon, FaviconViewHold
 
         viewHolder.txtvwFaviconType.text = item.iconType.toString()
 
-        viewHolder.imgvwFavicon.setImageURI(Uri.parse(item.url))
+        Picasso.get().load(item.url).into(viewHolder.imgvwFavicon)
     }
 
 }
