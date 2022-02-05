@@ -1,3 +1,9 @@
+# KotlinMultiplatformSimpleExample
+
+A simple application to show how Kotlin Multiplatform works and what you can do with it.
+
+Contains a server app for the JVM and clients for Android, iOS, JavaScript, Linux, Windows and macOS.
+
 
 ## Start the JVM server
 
