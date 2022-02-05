@@ -34,5 +34,5 @@ Build app (TODO: find out why `./gradlew apps:NativeApp:linkReleaseExecutableNat
 Run native app, e.g. with search term "Sparkasse":
 
 ```shell
-./apps/NativeApp/build/bin/native/debugExecutable/BankFinder.kexe sparkasse
+./apps/NativeApp/build/bin/native/debugExecutable/FaviconFinder.kexe heise.de
 ```

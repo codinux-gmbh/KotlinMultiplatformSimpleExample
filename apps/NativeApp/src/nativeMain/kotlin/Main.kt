@@ -1,14 +1,14 @@
 import kotlinx.coroutines.runBlocking
-import net.codinux.kotlin.example.domain.service.BankFinderService
+import net.codinux.kotlin.example.favicon.service.FaviconFinderService
 import platform.posix.exit
 
 fun main(args: Array<String>) {
   if (args.isEmpty()) {
-    println("Bitte geben Sie einen Suchbegriff ein, z. B.:\n./BankFinder.kexe \"Sparkasse Berlin\"")
+    println("Bitte geben Sie eine URL ein, z. B.:\n./FaviconFinder.kexe \"heise.de\"")
     exit(0)
   }
 
   runBlocking {
-    BankFinderService().findAndLogBanks(args.first())
+    FaviconFinderService().extractAndLogFavicons(args.first())
   }
 }

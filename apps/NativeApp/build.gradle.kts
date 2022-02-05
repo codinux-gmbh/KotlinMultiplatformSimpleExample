@@ -16,7 +16,7 @@ kotlin {
     nativeTarget.apply {
         binaries {
             executable {
-                baseName = "BankFinder"
+                baseName = "FaviconFinder"
 
                 entryPoint = "main"
             }

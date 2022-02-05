@@ -3,57 +3,67 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderClient
-import net.codinux.kotlin.example.domain.model.BankInfo
+import net.codinux.kotlin.example.favicon.dataaccess.FaviconFinderClient
+import net.codinux.kotlin.example.favicon.model.Favicon
 import org.w3c.dom.HTMLInputElement
 import react.RBuilder
 import react.RComponent
-import react.RProps
-import react.RState
+import react.Props
+import react.State
 import react.dom.*
+import styled.styledDiv
 
-external interface MainFormProps : RProps {
-  var client: BankFinderClient
+external interface MainFormProps : Props {
+  var client: FaviconFinderClient
 }
 
-data class MainFormState(val query: String, val foundBanks: List<BankInfo>, val lastFindBanksJob: Job?) : RState
+data class MainFormState(val url: String, val foundFavicon: List<Favicon>, val lastFindFaviconsJob: Job?) : State
 
 @JsExport
 class MainForm(props: MainFormProps) : RComponent<MainFormProps, MainFormState>(props) {
 
   init {
-    state = MainFormState("", listOf(), null)
+    state = MainFormState("heise.de", listOf(), null)
   }
 
   override fun RBuilder.render() {
     p {
-      +"Suche Banken (nach Name, Ort oder BLZ)"
+      +"Für welche URL sollen Favicons gesucht werden?"
     }
 
     input {
       attrs {
         type = InputType.text
-        value = state.query
+        value = state.url
         onChangeFunction = { event ->
-          state.lastFindBanksJob?.cancel()
+          state.lastFindFaviconsJob?.cancel()
 
-          val query = (event.target as HTMLInputElement).value
+          val url = (event.target as HTMLInputElement).value
 
-          val findBanksJob = GlobalScope.launch {
-            val foundBanks = props.client.findBanks(query)
+          val findFaviconJob = GlobalScope.launch {
+            val foundFavicons = props.client.extractFavicons(url)
 
-            setState(MainFormState(query, foundBanks, null))
+            setState(MainFormState(url, foundFavicons, null))
           }
 
-          setState(MainFormState(query, state.foundBanks, findBanksJob))
+          setState(MainFormState(url, state.foundFavicon, findFaviconJob))
         }
       }
     }
 
-    ol {
-      state.foundBanks.forEach { bank ->
+    ul {
+      state.foundFavicon.forEach { favicon ->
         li {
-          div { +"${bank.bankCode} ${bank.name} ${bank.city}" }
+          styledDiv {
+            span { +"${favicon.size} ${favicon.iconType}" }
+            img(src = favicon.url) {
+              favicon.size?.let { size ->
+                attrs {
+                  height = "${size.height}px"
+                }
+              }
+            }
+          }
         }
       }
     }
