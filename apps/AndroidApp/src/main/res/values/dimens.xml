@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="activity_main_padding">8dp</dimen>
+    <dimen name="activity_main_layout_search_height">75dp</dimen>
+    <dimen name="activity_main_url_label_margin_right">6dp</dimen>
+    <dimen name="activity_main_recyclerview_favicons_margin_top">8dp</dimen>
+
+    <dimen name="list_item_favicon_size_view_width">100dp</dimen>
+    <dimen name="list_item_favicon_favicon_type_view_width">100dp</dimen>
+
+</resources>

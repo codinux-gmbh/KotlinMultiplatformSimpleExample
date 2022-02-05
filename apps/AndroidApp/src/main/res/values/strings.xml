@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">FaviconFinderAndroid</string>
+    <string name="app_name">Favicon Finder</string>
+
+    <string name="find_favicons_for_url_label">Favicons finden für URL</string>
 </resources>
