@@ -3,10 +3,11 @@ package net.codinux.kotlin.example.api
 import io.ktor.http.*
 import kotlin.test.*
 import io.ktor.server.testing.*
+import net.codinux.kotlin.example.bankfinder.api.configureBankFinderRouting
 import net.codinux.kotlin.example.configureHTTP
 import net.codinux.kotlin.example.configureSerialization
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderFindBanksQueryQueryParameter
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderPath
+import net.codinux.kotlin.example.bankfinder.dataaccess.BankFinderUrlConfig.Companion.BankFinderFindBanksQueryQueryParameter
+import net.codinux.kotlin.example.bankfinder.dataaccess.BankFinderUrlConfig.Companion.BankFinderPath
 
 class BankFinderApiTest {
 

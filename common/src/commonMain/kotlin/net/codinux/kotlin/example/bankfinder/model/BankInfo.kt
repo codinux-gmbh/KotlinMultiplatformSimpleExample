@@ -1,4 +1,4 @@
-package net.codinux.kotlin.example.domain.model
+package net.codinux.kotlin.example.bankfinder.model
 
 import kotlinx.serialization.Serializable
 

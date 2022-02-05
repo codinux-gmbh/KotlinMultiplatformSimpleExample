@@ -1,11 +1,11 @@
-package net.codinux.kotlin.example.api
+package net.codinux.kotlin.example.bankfinder.api
 
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import net.codinux.kotlin.example.domain.BankFinder
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderFindBanksQueryQueryParameter
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig.Companion.BankFinderPath
+import net.codinux.kotlin.example.bankfinder.domain.BankFinder
+import net.codinux.kotlin.example.bankfinder.dataaccess.BankFinderUrlConfig.Companion.BankFinderFindBanksQueryQueryParameter
+import net.codinux.kotlin.example.bankfinder.dataaccess.BankFinderUrlConfig.Companion.BankFinderPath
 
 
 fun Application.configureBankFinderRouting() {

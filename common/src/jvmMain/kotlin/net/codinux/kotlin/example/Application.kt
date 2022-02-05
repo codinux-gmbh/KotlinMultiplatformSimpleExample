@@ -6,13 +6,14 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.*
-import net.codinux.kotlin.example.api.configureBankFinderRouting
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig
+import net.codinux.kotlin.example.bankfinder.api.configureBankFinderRouting
+import net.codinux.kotlin.example.favicon.api.configureFaviconFinderRouting
 
 fun main() {
-    embeddedServer(Netty, port = BankFinderUrlConfig.Port, host = "0.0.0.0") {
+    embeddedServer(Netty, port = ServerConfig.Port, host = "0.0.0.0") {
         configureHTTP()
         configureSerialization()
+        configureFaviconFinderRouting()
         configureBankFinderRouting()
     }.start(wait = true)
 }

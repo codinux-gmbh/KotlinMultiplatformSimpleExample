@@ -67,6 +67,9 @@ kotlin {
                 implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-server-cors:$ktorVersion")
 
+                implementation("net.dankito.utils:favicon-finder:1.0.0")
+                implementation("net.dankito.utils:java-utils:1.0.18")
+
                 // TODO: try to get rid of / use Kotlin MPP logger
                 implementation("org.slf4j:slf4j-api:1.7.32")
                 implementation("ch.qos.logback:logback-classic:1.2.10")

@@ -1,9 +1,9 @@
-package net.codinux.kotlin.example.domain
+package net.codinux.kotlin.example.bankfinder.domain
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import net.codinux.kotlin.example.domain.model.BankInfo
+import net.codinux.kotlin.example.bankfinder.model.BankInfo
 import org.slf4j.LoggerFactory
 
 @Serializable

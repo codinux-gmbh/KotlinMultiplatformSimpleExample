@@ -1,12 +1,12 @@
-package net.codinux.kotlin.example.domain.service
+package net.codinux.kotlin.example.bankfinder.service
 
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderClient
-import net.codinux.kotlin.example.domain.dataaccess.BankFinderUrlConfig
-import net.codinux.kotlin.example.domain.model.BankInfo
+import net.codinux.kotlin.example.ServerConfig
+import net.codinux.kotlin.example.bankfinder.dataaccess.BankFinderClient
+import net.codinux.kotlin.example.bankfinder.model.BankInfo
 
 class BankFinderService(
-  host: String = BankFinderUrlConfig.Host,
-  port: Int = BankFinderUrlConfig.Port
+  host: String = ServerConfig.Host,
+  port: Int = ServerConfig.Port
 ) {
 
   private val client = BankFinderClient(host, port)

@@ -1,5 +1,6 @@
 package net.codinux.kotlin.example.domain
 
+import net.codinux.kotlin.example.bankfinder.domain.BankFinder
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

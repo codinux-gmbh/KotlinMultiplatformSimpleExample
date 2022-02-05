@@ -1,13 +1,9 @@
-package net.codinux.kotlin.example.domain.dataaccess
+package net.codinux.kotlin.example.bankfinder.dataaccess
 
 
 class BankFinderUrlConfig {
 
   companion object {
-
-    const val Host = "localhost"
-
-    const val Port = 9999
 
     const val BankFinderPath = "/bankfinder"
 
