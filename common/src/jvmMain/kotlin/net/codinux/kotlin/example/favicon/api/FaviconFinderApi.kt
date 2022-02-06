@@ -45,12 +45,38 @@ class FaviconFinderApi {
       adjustedUrl = "https://$url"
     }
 
-    return map(faviconFinder.extractFavicons(adjustedUrl)).sortedBy { it.size }
+    val result = faviconFinder.extractFavicons(adjustedUrl)
+      .map { setMimeType(it) }
+
+    return map(result)
+      .sortedBy { it.size }
   }
 
   private fun map(favicons: List<net.dankito.utils.favicon.Favicon>): List<Favicon> {
     return favicons.map {
       Favicon(it.url, FaviconType.valueOf(it.iconType.name), it.size?.let { size -> Size(size.width, size.height) }, it.type)
+    }
+  }
+
+  private fun setMimeType(favicon: net.dankito.utils.favicon.Favicon): net.dankito.utils.favicon.Favicon {
+    if (favicon.type.isNullOrBlank()) {
+      return net.dankito.utils.favicon.Favicon(favicon.url, favicon.iconType, favicon.size, getMimeType(favicon))
+    }
+
+    return favicon
+  }
+
+  private fun getMimeType(favicon: net.dankito.utils.favicon.Favicon): String? {
+    if (favicon.type.isNullOrBlank() == false) {
+      return favicon.type
+    }
+
+    return when {
+      favicon.url.endsWith(".png") -> "image/png"
+      favicon.url.endsWith(".ico", true) -> "image/x-icon"
+      favicon.url.endsWith(".jpg") || favicon.url.endsWith(".jpeg") -> "image/jpeg"
+      favicon.url.endsWith(".svg") -> "image/svg+xml"
+      else -> null
     }
   }
 
