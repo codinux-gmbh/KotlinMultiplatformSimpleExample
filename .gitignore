@@ -17,5 +17,12 @@
 .DS_Store
 .externalNativeBuild
 
+## User settings
+xcuserdata/
+
+## Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
 /data/
 **/*.log

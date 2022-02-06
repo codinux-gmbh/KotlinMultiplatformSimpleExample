@@ -10,6 +10,8 @@ repositories {
 
 
 val ktorVersion = "2.0.0-beta-1"
+val kotlinSerializationVersion = "1.3.2"
+val coroutinesVersion = "1.6.0"
 
 
 kotlin {
@@ -32,6 +34,14 @@ kotlin {
         }
     }
 
+    ios {
+        binaries {
+            framework {
+                baseName = "common"
+            }
+        }
+    }
+
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
     val nativeTarget = when {
@@ -45,7 +55,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinSerializationVersion")
 
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
@@ -94,13 +104,26 @@ kotlin {
 
         val jsTest by getting
 
+
+        val iosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+
+                // ktor Native needs "-native-mt" coroutines version. Export it so that referencing applications don't need to import it on their own
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion-native-mt")
+            }
+        }
+
+        val iosTest by getting
+
+
         val nativeMain by getting {
             dependencies {
                 // requires that cURL is installed on your system
                 implementation("io.ktor:ktor-client-curl:$ktorVersion")
 
                 // ktor Native needs "-native-mt" coroutines version. Export it so that referencing applications don't need to import it on their own
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion-native-mt")
             }
         }
 
