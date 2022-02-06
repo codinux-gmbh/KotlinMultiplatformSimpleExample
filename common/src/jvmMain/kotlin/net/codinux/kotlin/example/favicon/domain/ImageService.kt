@@ -1,6 +1,7 @@
 package net.codinux.kotlin.example.favicon.domain
 
-import com.soywiz.korim.format.readImageData
+import com.soywiz.korim.format.*
+import com.soywiz.korim.format.jpg.JPEG
 import com.soywiz.korio.file.std.MemoryVfs
 import com.soywiz.korio.stream.openAsync
 import net.codinux.kotlin.example.favicon.model.Size
@@ -16,6 +17,11 @@ class ImageService {
     private val webClient: IWebClient = KtorWebClient()
 
     private val log = LoggerFactory.getLogger(ImageService::class.java)
+
+
+    init {
+        RegisteredImageFormats.register(PNG, ICO, JPEG, SVG)
+    }
 
 
     suspend fun getImageSize(imageUrl: String, imageMimeType: String): Size? {
