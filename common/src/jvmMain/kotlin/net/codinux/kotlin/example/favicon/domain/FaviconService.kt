@@ -9,8 +9,6 @@ import net.codinux.kotlin.example.favicon.api.FaviconFinderApi
 import net.codinux.kotlin.example.favicon.model.Favicon
 import net.codinux.kotlin.example.favicon.model.FaviconType
 import net.codinux.kotlin.example.favicon.model.Size
-import net.codinux.kotlin.example.utils.web.IWebClient
-import net.codinux.kotlin.example.utils.web.KtorWebClient
 import net.codinux.kotlin.example.utils.web.RequestParam
 import net.codinux.kotlin.example.utils.web.ResponseType
 import net.dankito.utils.favicon.FaviconFinder
@@ -21,7 +19,7 @@ class FaviconService {
 
     private val faviconFinder = FaviconFinder()
 
-    private val webClient: IWebClient = KtorWebClient()
+    private val imageService = ImageService()
 
     private val log = LoggerFactory.getLogger(FaviconFinderApi::class.java)
 
@@ -54,19 +52,10 @@ class FaviconService {
     }
 
     private suspend fun findImageSize(favicon: Favicon): Favicon {
-        if (favicon.size != null || favicon.mimeType.isNullOrBlank()) {
-            return favicon
-        }
-
-        try {
-            webClient.get(RequestParam(favicon.url, ResponseType.ByteArray)).response?.let { iconBytes ->
-                val imageData = MemoryVfs(mapOf(favicon.mimeType to iconBytes.openAsync()))[favicon.mimeType].readImageData()
-                if (imageData.width > 0 && imageData.height > 0) {
-                    return Favicon(favicon.url, favicon.iconType, Size(imageData.width, imageData.height), favicon.mimeType)
-                }
+        if (favicon.size == null && favicon.mimeType.isNullOrBlank() == false) {
+            imageService.getImageSize(favicon.url, favicon.mimeType)?.let { size ->
+                return Favicon(favicon.url, favicon.iconType, size, favicon.mimeType)
             }
-        } catch (e: Exception) {
-            log.error("Could not determine size of Favicon $favicon", e)
         }
 
         return favicon
