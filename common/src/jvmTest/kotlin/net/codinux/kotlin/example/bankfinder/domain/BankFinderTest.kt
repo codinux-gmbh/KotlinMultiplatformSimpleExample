@@ -1,4 +1,4 @@
-package net.codinux.kotlin.example.domain
+package net.codinux.kotlin.example.bankfinder.domain
 
 import net.codinux.kotlin.example.bankfinder.domain.BankFinder
 import org.junit.jupiter.api.Test

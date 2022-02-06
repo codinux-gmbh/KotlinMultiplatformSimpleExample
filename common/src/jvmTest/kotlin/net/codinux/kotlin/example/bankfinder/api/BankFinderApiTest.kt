@@ -1,4 +1,4 @@
-package net.codinux.kotlin.example.api
+package net.codinux.kotlin.example.bankfinder.api
 
 import io.ktor.http.*
 import kotlin.test.*
