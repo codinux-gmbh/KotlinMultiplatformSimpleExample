@@ -1,14 +1,24 @@
 package net.codinux.kotlin.example.favicon.api
 
+import com.soywiz.korim.format.*
+import com.soywiz.korim.format.jpg.JPEG
+import com.soywiz.korio.file.std.MemoryVfs
+import com.soywiz.korio.stream.openAsync
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
+import kotlinx.coroutines.runBlocking
 import net.codinux.kotlin.example.favicon.dataaccess.FaviconFinderUrlConfig.Companion.FaviconFinderPath
 import net.codinux.kotlin.example.favicon.dataaccess.FaviconFinderUrlConfig.Companion.FaviconFinderUrlQueryParameter
 import net.codinux.kotlin.example.favicon.model.Favicon
 import net.codinux.kotlin.example.favicon.model.FaviconType
 import net.codinux.kotlin.example.favicon.model.Size
+import net.codinux.kotlin.example.utils.web.IWebClient
+import net.codinux.kotlin.example.utils.web.KtorWebClient
+import net.codinux.kotlin.example.utils.web.RequestParam
+import net.codinux.kotlin.example.utils.web.ResponseType
 import net.dankito.utils.favicon.FaviconFinder
+import org.slf4j.LoggerFactory
 
 
 private val api = FaviconFinderApi()
@@ -38,6 +48,15 @@ class FaviconFinderApi {
 
   private val faviconFinder = FaviconFinder()
 
+  private val webClient: IWebClient = KtorWebClient()
+
+  private val log = LoggerFactory.getLogger(FaviconFinderApi::class.java)
+
+
+  init {
+      RegisteredImageFormats.register(PNG, ICO, JPEG, SVG)
+  }
+
 
   fun extractFavicons(url: String): List<Favicon> {
     var adjustedUrl = url
@@ -45,10 +64,10 @@ class FaviconFinderApi {
       adjustedUrl = "https://$url"
     }
 
-    val result = faviconFinder.extractFavicons(adjustedUrl)
-      .map { setMimeType(it) }
+    val result = map(faviconFinder.extractFavicons(adjustedUrl))
+      .map { setMimeTypeIfNotSet(it) }
 
-    return map(result)
+    return setImageSizeIfNotSet(result)
       .sortedBy { it.size }
   }
 
@@ -58,17 +77,42 @@ class FaviconFinderApi {
     }
   }
 
-  private fun setMimeType(favicon: net.dankito.utils.favicon.Favicon): net.dankito.utils.favicon.Favicon {
-    if (favicon.type.isNullOrBlank()) {
-      return net.dankito.utils.favicon.Favicon(favicon.url, favicon.iconType, favicon.size, getMimeType(favicon))
+  private fun setImageSizeIfNotSet(favicons: List<Favicon>): List<Favicon> {
+    return runBlocking {
+      return@runBlocking favicons.map { findImageSize(it) }
+    }
+  }
+
+  private suspend fun findImageSize(favicon: Favicon): Favicon {
+    if (favicon.size != null || favicon.mimeType.isNullOrBlank()) {
+      return favicon
+    }
+
+    try {
+      webClient.get(RequestParam(favicon.url, ResponseType.ByteArray)).response?.let { iconBytes ->
+        val imageData = MemoryVfs(mapOf(favicon.mimeType to iconBytes.openAsync()))[favicon.mimeType].readImageData()
+        if (imageData.width > 0 && imageData.height > 0) {
+          return Favicon(favicon.url, favicon.iconType, Size(imageData.width, imageData.height), favicon.mimeType)
+        }
+      }
+    } catch (e: Exception) {
+      log.error("Could not determine size of Favicon $favicon", e)
     }
 
     return favicon
   }
 
-  private fun getMimeType(favicon: net.dankito.utils.favicon.Favicon): String? {
-    if (favicon.type.isNullOrBlank() == false) {
-      return favicon.type
+  private fun setMimeTypeIfNotSet(favicon: Favicon): Favicon {
+    if (favicon.mimeType.isNullOrBlank()) {
+      return Favicon(favicon.url, favicon.iconType, favicon.size, getMimeType(favicon))
+    }
+
+    return favicon
+  }
+
+  private fun getMimeType(favicon: Favicon): String? {
+    if (favicon.mimeType.isNullOrBlank() == false) {
+      return favicon.mimeType
     }
 
     return when {
@@ -76,7 +120,7 @@ class FaviconFinderApi {
       favicon.url.endsWith(".ico", true) -> "image/x-icon"
       favicon.url.endsWith(".jpg") || favicon.url.endsWith(".jpeg") -> "image/jpeg"
       favicon.url.endsWith(".svg") -> "image/svg+xml"
-      else -> null
+      else -> favicon.mimeType
     }
   }
 

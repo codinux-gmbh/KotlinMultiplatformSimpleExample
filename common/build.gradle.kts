@@ -70,6 +70,8 @@ kotlin {
                 implementation("net.dankito.utils:favicon-finder:1.0.0")
                 implementation("net.dankito.utils:java-utils:1.0.18")
 
+                implementation("com.soywiz.korlibs.korim:korim:2.4.10")
+
                 // TODO: try to get rid of / use Kotlin MPP logger
                 implementation("org.slf4j:slf4j-api:1.7.32")
                 implementation("ch.qos.logback:logback-classic:1.2.10")
